@@ -1,0 +1,1154 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>C2MC-Agua</title>
+
+		<meta name="description" content=" ">
+		<meta name="author" content="PPP">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<!-- Cambiar a theme white -->
+		<link rel="stylesheet" href="dist/theme/white.css" id="theme">
+                            
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+		
+		<!-- Estilos adicionales para fondo blanco -->      
+        <style>
+            /* Estilo para el cuadro */
+            #miCuadro {
+                position: fixed;
+                bottom: 100%;
+                left: 0;
+                background-color: rgba(0, 0, 0, 0.);
+                color: #fff;
+                padding: 6px;
+            }     
+
+			/* TEXTO NEGRO SATURADO - Muy importante */
+			.reveal, 
+			.reveal h1, 
+			.reveal h2, 
+			.reveal h3, 
+			.reveal h4, 
+			.reveal h5, 
+			.reveal h6,
+			.reveal p,
+			.reveal ul,
+			.reveal ol,
+			.reveal li,
+			.reveal blockquote,
+			.reveal th,
+			.reveal td,
+			.reveal div,
+			.reveal span {
+				color: #000000 !important; /* Negro puro */
+				text-shadow: none !important; /* Eliminar sombras que aclaren */
+				font-weight: 600 !important; /* Texto más grueso para mejor contraste */
+			}
+          
+
+			/* Links también en negro */
+			.reveal a {
+				color: #000000 !important;
+				text-decoration: underline;
+				font-weight: 700 !important;
+			}
+
+			/* Efecto hover para links */
+			.reveal a:hover {
+				color: #333333 !important;
+				text-shadow: 0 0 2px rgba(0,0,0,0.3);
+			}
+
+			/* Asegurar que el fondo de slides sea transparente */
+            .reveal .slides {
+                background: transparent !important;
+            }
+          
+            /* Cajas destacadas - ajustar para texto negro */
+            .highlight-box {
+                background-color: rgba(255, 255, 255, 0.95) !important; /* Fondo blanco */
+                color: #000000 !important; /* Texto negro */
+                border: 3px solid #000000 !important; /* Borde negro */
+                border-radius: 10px;
+                padding: 20px;
+                font-size: 22px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+                font-weight: 600;
+            }          
+          
+            /* Número de slide en negro */
+            .reveal .slide-number {
+                position: absolute;
+                bottom: 10px;
+                left: 10px;
+                font-size: 33px;
+                color: #000000 !important; /* Negro puro */
+                background-color: rgba(255, 255, 255, 0.9);
+                border-radius: 5px;
+                padding: 5px 10px;
+                font-weight: 700;
+                border: 2px solid transparent;
+            }
+            
+            /* Controles de navegación */
+            .reveal .controls {
+                color: #000000 !important;
+            }
+            
+            /* Progress bar */
+            .reveal .progress {
+                background: rgba(0, 0, 0, 0.1) !important; /* Fondo gris claro */
+                height: 5px !important; /* Grosor de la barra */
+            }
+            
+            .reveal .progress span {
+                background: #FF8C00 !important; /* Naranja intenso */
+                background: linear-gradient(90deg, #FF8C00, #FFA500) !important; /* Degradado naranja */
+                box-shadow: 0 0 10px rgba(255, 140, 0, 0.5); /* Sombra naranja */
+            }
+
+            /* Layout de dos columnas */
+            .twocolumn {
+               display: flex;
+               align-items: center;
+               justify-content: space-around;
+               grid-template-columns: 1fr 1fr;
+               grid-gap: 5px;
+               text-align: left;
+            }
+            
+            .twocolumn div {
+                flex: 1;
+                text-align: center;
+            }
+            
+            .two-column-list {
+                column-count: 2;
+                column-gap: 9px;
+                color: #000000 !important;
+            }
+
+            /* Asegurar que todos los textos dentro de listas sean negros */
+            .two-column-list li {
+                color: #000000 !important;
+                font-weight: 600 !important;
+            }
+
+            /* Override para cualquier elemento que pueda tener color heredado */
+            .reveal section * {
+                color: #000000 !important;
+            }                                        
+          
+            /* Para código y bloques de código */
+            .reveal code,
+            .reveal pre {
+                color: #000000 !important;
+                background-color: rgba(255, 255, 255, 0.9) !important;
+                border: 1px solid #000000 !important;
+            }
+        
+            .reveal h5, 
+            .reveal h6 {
+              color: #fff;
+              text-shadow: 
+                 2px 2px 4px rgba(0,0,0,0.7),   /* sombra principal fuerte */
+                 4px 4px 6px rgba(0,0,0,0.5),   /* sombra más extendida */
+                -1px -1px 2px rgba(255,255,255,0.2); /* leve brillo para simular relieve */
+            }
+          
+        </style>
+        
+	</head>
+    
+
+	<body>
+		<div class="reveal">
+			<div class="slides">
+  
+            <div class="menubar">
+                <ul class="menu"></ul> 
+            </div>
+
+<!--
+Fade In/Out:
+
+fragment fade-in: Hace que el fragmento aparezca con un efecto de desvanecimiento.
+fragment fade-out: Hace que el fragmento desaparezca con un efecto de desvanecimiento.
+Slide:
+
+fragment fade-left: Hace que el fragmento aparezca deslizándose desde la izquierda.
+fragment fade-right: Hace que el fragmento aparezca deslizándose desde la derecha.
+fragment fade-up: Hace que el fragmento aparezca deslizándose desde arriba.
+fragment fade-down: Hace que el fragmento aparezca deslizándose desde abajo.
+Zoom:
+
+fragment zoom-in: Hace que el fragmento aparezca con un efecto de zoom hacia adentro.
+fragment zoom-out: Hace que el fragmento desaparezca con un efecto de zoom hacia afuera.
+Grow/Shrink:
+
+fragment grow: Hace que el fragmento aparezca creciendo.
+fragment shrink: Hace que el fragmento desaparezca encogiéndose.
+Highlight:
+
+fragment highlight-current-blue: Hace que el fragmento actual se resalte en azul.
+fragment highlight-current-red: Hace que el fragmento actual se resalte en rojo.
+-->                
+                
+
+<!--||||||||||||||||||||||||||||||||||||||-->
+<!--||||||||||||||PORTADA|||||||||||||||||-->
+<!--||||||||||||||||||||||||||||||||||||||-->                
+        
+        <section data-state="hide-menubar hide-menu">
+
+
+          <section>
+            <!-- Logos superiores -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <!-- Logo izquierda -->
+              <img src="imagenes/Universidad_de_La_Serena_escudo.png" style="height: 90px;">
+
+              <!-- Logo centro -->
+              <img src="imagenes/logo_c2mc_2025.png" style="width: 129px;">
+
+              <!-- Logo derecha -->
+              <img src="imagenes/logo_ubiobio.png" style="height: 90px;">
+            </div>
+
+            <!-- Título -->
+            <h6 style="margin-top: 20px;">Generador de Agua Atmosférica con Control Computacional: Optimización Experimental de Ciclos de Hielo/Deshielo</h6>
+
+            <!-- Autores -->
+            <p style="font-size: 18px; text-align: center; margin-top: 15px;">
+              C. Garrido, C. Avendaño y <u>P. Pacheco</u>
+            </p>
+
+            <!-- Instituciones -->
+            <p style="font-size: 18px; text-align: center; line-height: 1.5; margin-top: 15px;">
+              Departamento de Ingeniería Mecánica – Universidad de La Serena <br>
+              Benavente 980 – La Serena – CHILE <br>
+              e-mail: ppacheco@userena.cl <br><br>
+            </p>
+
+            <!-- Congreso al pie -->
+            <p style="font-size: 21px; text-align: center; margin-top: 25px;">
+              <strong>XXIII Congreso Chileno de Mecánica Computacional</strong>
+            </p>
+          </section>
+
+          
+          
+          <section>
+            <h6>Contenido</h6>
+            
+              <div style="display: flex; gap: 50px; justify-content: space-between; font-size: 25px;">
+                <!-- Columna 1 -->
+                <div style="flex: 1; text-align: justify;">
+                  <div class="fragment fade-in-then-semi-out">
+                    <p><strong>Motivación</strong></p>
+                  </div>
+
+                  <div class="fragment fade-in-then-semi-out">
+                    <p><strong>Literatura</strong></p>
+                    <ul>
+                      <li>Prototipos</li>
+                    </ul>
+                  </div>
+
+                  <div class="fragment fade-in-then-semi-out">
+                    <p><strong>Prototipo</strong></p>
+                    <ul>
+                      <li>Funcionamiento</li>
+                      <li>Experimento</li>
+                    </ul>
+                  </div>                      
+
+                </div>
+
+                <!-- Columna 2 -->
+                <div style="flex: 1; text-align: justify;">
+                  <div class="fragment fade-in-then-semi-out">
+                    <p><strong>Resultados</strong></p>
+                  </div>
+
+                  <div class="fragment fade-in-then-semi-out">
+                    <p><strong>Conclusiones</strong></p>
+                  </div>     
+
+                  <div class="fragment fade-in-then-semi-out">
+                    <p><strong>Mejoras</strong></p>
+                    <p><strong>Trabajos Futuros</strong></p>                        
+                  </div>                        
+
+
+                </div>
+              </div>                                      
+            </section>
+          
+          
+            <section>
+
+              <!-- Imagen centrada -->
+              <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+                <img src="imagenes/water_stress_.png" alt="Resultado" style="max-width: 90%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+              
+                <p style="font-size: 30px; text-align: center; line-height: 1.5; margin-top: 1px;">
+                    WRI (2020) - Chile en catástrofe hídrica para el año 2040
+                </p>              
+
+            </section>
+          
+            <section>
+
+              <!-- Imagen centrada -->
+              <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+                <img src="imagenes/water_stress_2.png" alt="Resultado" style="max-width: 90%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+              
+                <p style="font-size: 30px; text-align: center; line-height: 1.5; margin-top: 1px;">
+                    WRI (2020) - Chile en catástrofe hídrica para el año 2040
+                </p>              
+
+            </section>                    
+          
+        </section>
+        
+          
+          
+        <section data-name="Literatura">                       
+                <section>
+                    
+                    <h4>Sistema de enfriamiento termoeléctrico (TEC)</h4>
+                    
+                    
+                        <div class="twocolumn">
+                                <div>
+                                    <img src="imagenes/tec2.jpg" width="888" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                                </div>
+                                <div>
+                                    <p class="fragment fade-left" style="font-size: 30px; text-align: justify; text-align-last: left;">
+                                        Módulo de enfriamiento:
+                                    </p>  
+                                        <ul class="fragment fade-left" style="font-size: 27px; text-align: justify; text-align-last: left;">
+                                            <li>Placa Peltier</li>
+                                            <li>Radiadores de aluminio</li>
+                                            <li>Ventiladores</li>
+                                            <li>Funcionamiento: 12V | 5A | 60W</li>
+                                        </ul>
+                                </div>
+                            </div>  
+                </section>                                
+
+                <section>
+                                        
+                        <div class = "twocolumn">
+                            <div>
+                                <img src="imagenes/aplicaciones_1-0.PNG" width = "666" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                            </div>
+                            
+                            <div>
+                                <img src = "imagenes/aplicaciones_1-1.PNG" width = "333" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                            </div>                            
+                        </div>
+                    
+                        <ul class="fragment fade-left" style="font-size: 24px; text-align: justify; text-align-last: left;">
+                            <li>Condensación de agua del aire atmosférico</li>
+                            <li>Generación de agua: | 30-116 ml/hr | 60-208 W |</li>
+                            <li>Modelo matemático</li>
+                        </ul>       
+                    
+                    <p class = "fragment fade-left" style="font-size: 15px; text-align: justify; text-align-last: left;">
+                        Shourideh, A. H., Ajram, W. B., Al Lami, J., Haggag, S., and Mansouri, A. (2018). A comprehensive study of an atmospheric water generator using Peltier effect. Thermal Science and Engineering Progress, 6, 14-26.    
+                    </p>
+                    
+                </section>
+                
+                
+                <section>
+                    
+                        <div class = "twocolumn">
+                            <div>
+                                <img src="imagenes/aplicaciones_2-0.PNG" width = "400" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                            </div>
+                            
+                            <div>
+                                <img src = "imagenes/aplicaciones_2-1.PNG" width = "280" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                            </div>                            
+                        </div>
+                    
+                        <ul class="fragment fade-left" style="font-size: 21px; text-align: justify; text-align-last: left;">
+                            <li>Condensación de agua del aire atmosférico para riego</li>
+                            <li>Generación de agua: | 10 ml en 3 hr | 12 V - 17 A |</li>
+                            <li>Estudio experimental</li>
+                        </ul>       
+                    
+                    <p class = "fragment fade-left" style="font-size: 15px; text-align: justify; text-align-last: left;">
+                        Muñoz-García, M. A., Moreda, G. P., Raga-Arroyo, M. P., and Marín-González, O. (2013). Water harvesting for young trees using Peltier modules powered by photovoltaic solar energy. Computers and electronics in agriculture, 93, 60-67. 
+                    </p>
+                    
+                </section>    
+                
+                
+                <section>
+                    
+                        <div class = "twocolumn">
+                            <div>
+                                <img src="imagenes/aplicaciones_3-0.PNG" width = "350" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                            </div>
+                            
+                            <div>
+                                <img src = "imagenes/aplicaciones_3-1.PNG" width = "400" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                            </div>                            
+                        </div>
+                    
+                        <ul class="fragment fade-left" style="font-size: 24px; text-align: justify; text-align-last: left;">
+                            <li>Humidificador/Deshumidificador</li>
+                            <li>Disminución de humedad: 95-65% en 1 hr</li>
+                            <li>Espacio de 80x50x80 cm</li>
+                        </ul>       
+                    
+                    <p class = "fragment fade-left" style="font-size: 15px; text-align: justify; text-align-last: left;">
+                        Li, B., Hua, L., Tu, Y., and Wang, R. (2019). A full-solid-state humidity pump for localized humidity control. Joule, 3(6), 1427-1436.
+                    </p>
+                    
+                </section>    
+          
+          
+                <section>
+
+                        <div class="twocolumn">
+                                <div>
+                                    <img src="imagenes/p3.png" width="888" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                                </div>
+                                <div>
+                                  <ul class="fragment fade-left" style="font-size: 27px; text-align: justify; text-align-last: left;">
+                                      <li>Lado frío: superficie hidrofílica e hidrofóbica</li>
+                                      <li>Lado caliente: agua y nanotubos de carbono (0.0125%)</li>
+                                      <li>7 ml/h</li>
+                                  </ul>
+                                </div>
+                            </div>  
+                    <p class = "fragment fade-left" style="font-size: 15px; text-align: justify; text-align-last: left;">
+                        Heggy, A. H., and Abdel-Rehim, A. A. (2022). Optimization of a thermoelectric cooler-based system for dehumidification applications in terms of heat dissipation and water collection. Energy Conversion and Management, 258, 115550.
+                    </p>
+                </section>    
+          
+          
+                <section>
+
+                        <div class="twocolumn">
+                                <div>
+                                    <img src="imagenes/p4.png" width="888" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                                </div>
+                                <div>
+                                  <ul class="fragment fade-left" style="font-size: 27px; text-align: justify; text-align-last: left;">
+                                      <li>$T_\infty = 27 ^oC$</li> 
+                                      <li>$\phi_\infty = 80$%</li>
+                                      <li>$V = 1.7 m/s$</li>
+                                      <li>25 ml/h</li>
+                                  </ul>
+                                </div>
+                            </div>  
+                    <p class = "fragment fade-left" style="font-size: 15px; text-align: justify; text-align-last: left;">
+                      John, J., Zafar, H. R., Francis, J., James, A., Tharian, M. G., and Mathew, M. J. (2022). Design and optimization of an atmospheric water generator using thermoelectric cooling modules. Materials Today: Proceedings, 56, 2563-2567.
+                    </p>                  
+                </section>    
+          
+                <section>
+
+                        <div class="twocolumn">
+                                <div>
+                                  <img src = "imagenes/p6.png" width = "600" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                                </div>
+                                <div>
+                        <ul class = "fragment fade-left" style="font-size: 27px; text-align: justify; text-align-last: left;">
+                            <li>Cantidad y disposición de módulos</li>
+                            <li>Tamaño de ducto y disipador de calor</li>
+                            <li>33 ml/h</li>
+                            <li>COP = 0.75</li>
+                        </ul>   
+                                </div>
+                            </div>  
+                    <p class = "fragment fade-left" style="font-size: 15px; text-align: justify; text-align-last: left;">
+          Yao, Y., Sun, Y., Sun, D., Sang, C., Sun, M., Shen, L., and Chen, H. (2017). Optimization design and experimental 
+study of thermoelectric dehumidifier. Applied Thermal Engineering, 123, 820-829.
+                    </p>               
+                </section>              
+          
+          
+                <section>             
+                        <img src = "imagenes/p9.png" width = "800" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                    
+                        <ul class = "fragment fade-left" style="font-size: 18px; text-align: justify; text-align-last: left;">
+                            <li>TEC + enfriamiento radiativo</li>
+                            <li>Utilizado en refrigeración</li>
+                        </ul>   
+                  
+                    <p class = "fragment fade-left" style="font-size: 15px; text-align: justify; text-align-last: left;">
+Liao, T., Xu, Q., Dai, Y., Cheng, C., He, Q., and Ni, M. (2022). Radiative cooling-assisted thermoelectric refrigeration and 
+power systems: Coupling properties and parametric optimization. Energy, 242, 122546.
+                    </p>    
+                    
+                </section>
+          
+          
+                                                                                                                                  
+                <section>             
+                        <img src = "imagenes/ventajas_desventajas.PNG" width = "500" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                    
+                        <ul class = "fragment fade-left two-column-list" style="font-size: 18px; text-align: justify; text-align-last: left;">
+                            <li>Tamaño 120 x 80 x 100 mm</li>
+                            <li>No tiene partes móviles</li>
+                            <li>Económico</li>
+                            <li>$\downarrow$ Total Equivalent Warming Impact</li>
+                        </ul>   
+                    
+                </section>
+                                                
+            
+        </section>   
+                                                                                          
+        <section data-name="Metodología">
+            
+            
+            <section>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; height: 100%; align-items: center; gap: 20px;">
+
+                <!-- Columna izquierda: Itemización -->
+                <div style="display: flex; justify-content: center; align-items: center;">
+                  <ul style="font-size: 30px; line-height: 1.6;">
+                    <li>Módulo TEC1-12706</li>
+                    <li>Tiempos de encendido y apagado controlables</li>
+                    <li>Sensor de humedad y temperatura</li>
+                    <li>Microcontrolador - Arduino</li>
+                  </ul>
+                </div>
+
+                <!-- Columna derecha: Video -->
+                <div style="display: flex; justify-content: center; align-items: center;">
+                  <video src="videos/tec.mp4" 
+                         width="66%" height="auto" 
+                         autoplay muted loop playsinline 
+                         data-autoplay
+                         onended="this.currentTime=0; this.play();" >
+                  </video>
+                </div>
+
+              </div>
+            </section>
+          
+                      
+            <section>
+                
+              <!-- Primera imagen -->
+              <div style="display: flex; justify-content: center; margin-bottom: 1px;">
+                <img src="imagenes/experiment.png" 
+                     style="max-width: 90%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+                                                                                        
+            </section>   
+          
+          
+                <section>
+                    
+                        <div class = "twocolumn">
+                            <div>
+                                <img src="imagenes/status-square.png" width = "360" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                            </div>
+                            
+                            <div>
+                                <img src = "imagenes/esp32cam.jpg" width = "360" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                            </div>                            
+                        </div>
+                  
+                        <ul class = "fragment fade-left two-column-list" style="font-size: 18px; text-align: justify; text-align-last: left;">
+                            <li>Reconocimiento de imágenes</li>
+                            <li>Red neuronal - Etiquetado de imágenes</li>
+                        </ul>                     
+                    
+                </section>             
+          
+          
+                <section>
+                    
+                    <img src="imagenes/histograms_status.png" width = "630" style="border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+
+                    <img src = "imagenes/status-h.png" width = "630">
+                  
+                </section>   
+          
+<!--
+Procesamiento de imágenes OPEN CV
+Programación: Google colab
+Escalado de datos: Standard
+testsize = 20%
+Arquitectura de la red: (30,30)
+Solver: adam
+Función de activación: relu
+imágenes utilizadas 560
+tamaño de imágenes recortadas: 240 x 320px
+-->
+          
+          
+              <section>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; height: 100%; align-items: center; gap: 40px;">
+
+                      <!-- Columna izquierda: Itemización -->
+                      <div style="display: flex; justify-content: center; align-items: center;">
+                          <ul style="font-size: 28px; line-height: 1.8; font-family: 'Arial', sans-serif;">
+                              <li><strong>Procesamiento de imágenes:</strong> OPEN CV</li>
+                              <li><strong>Programación:</strong> Google Colab</li>
+                              <li><strong>Escalado de datos:</strong> Standard</li>
+                              <li><strong>Test Size:</strong> 20%</li>
+                              <li><strong>Arquitectura de la red:</strong> (30, 30)</li>
+                              <li><strong>Solver:</strong> Adam</li>
+                              <li><strong>Función de activación:</strong> ReLU</li>
+                              <li><strong>Imágenes utilizadas:</strong> 560</li>
+                              <li><strong>Tamaño de imágenes recortadas:</strong> 240 × 320px</li>
+                          </ul>
+                      </div>
+
+                      <!-- Columna derecha: Imagen -->
+                      <div style="display: flex; justify-content: center; align-items: center;">
+                          <img src="imagenes/tools.png" 
+                               alt="Resultados Red Neuronal"
+                               style="width: 85%; height: auto; border-radius: 10px;">
+                      </div>
+
+                  </div>
+              </section>        
+          
+              <section>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; height: 100%; align-items: center; gap: 40px;">
+
+                      <!-- Columna izquierda: Matriz de Confusión -->
+                      <div style="display: flex; justify-content: center; align-items: center;">
+                          <img src="imagenes/confusion_matrix.png" width="490" 
+                               alt="Matriz de Confusión"
+                               style= "border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+                      </div>
+
+                      <!-- Columna derecha: Métricas con Fórmulas -->
+                      <div style="display: flex; justify-content: center; align-items: center;">
+                          <ul class="fragment fade-left" 
+                              style="font-size: 21px; line-height: 1.8; text-align: left; font-family: 'Arial', sans-serif; list-style: none; padding: 0;">
+
+                              <li style="margin-bottom: 15px;">
+                                  <strong>Precisión (Accuracy):</strong> 0.8304
+                                  <div style="font-size: 16px; color: #2c3e50; background: #f8f9fa; padding: 10px 12px; border-radius: 6px; margin-top: 5px; border-left: 4px solid #3498db; font-family: 'Courier New', monospace;">
+                                      <strong>Fórmula:</strong> (TP + TN) / (TP + TN + FP + FN)<br>
+                                  </div>
+                              </li>
+
+                              <li style="margin-bottom: 15px;">
+                                  <strong>Precisión (Precision):</strong> 0.8316
+                                  <div style="font-size: 16px; color: #2c3e50; background: #f8f9fa; padding: 10px 12px; border-radius: 6px; margin-top: 5px; border-left: 4px solid #e74c3c; font-family: 'Courier New', monospace;">
+                                      <strong>Fórmula:</strong> TP / (TP + FP)<br>                                    
+                                  </div>
+                              </li>
+
+                              <li style="margin-bottom: 15px;">
+                                  <strong>Sensibilidad (Recall):</strong> 0.8304
+                                  <div style="font-size: 16px; color: #2c3e50; background: #f8f9fa; padding: 10px 12px; border-radius: 6px; margin-top: 5px; border-left: 4px solid #f39c12; font-family: 'Courier New', monospace;">
+                                      <strong>Fórmula:</strong> TP / (TP + FN)<br>
+                                  </div>
+                              </li>
+
+                              <li style="margin-bottom: 15px;">
+                                  <strong>Puntuación F1:</strong> 0.8308
+                                  <div style="font-size: 16px; color: #2c3e50; background: #f8f9fa; padding: 10px 12px; border-radius: 6px; margin-top: 5px; border-left: 4px solid #9b59b6; font-family: 'Courier New', monospace;">
+                                      <strong>Fórmula:</strong> 2 × (Precision × Recall) / (Precision + Recall)<br>
+                                  </div>
+                              </li>
+
+                          </ul>
+                      </div>
+
+                  </div>
+              </section>  
+
+                                                                                                                     
+        </section>             
+                              
+
+        <section data-name = "Resultados" >    
+            
+            
+            <section>
+                <p style="font-size: 30px; text-align: center; line-height: 1.5; margin-top: 1px;">
+                    <strong>on/off - 180/180</strong>
+                </p>
+              <!-- Primera imagen -->
+              <div style="display: flex; justify-content: center; margin-bottom: 1px;">
+                <img src="imagenes/first_120_min_on_180_off_180.png" 
+                     style="max-width: 100%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+                
+            </section>
+            
+            <section>
+                <p style="font-size: 30px; text-align: center; line-height: 1.5; margin-top: 1px;">
+                    <strong>on/off - 120/120</strong>
+                </p>
+              <!-- Segunda imagen -->
+              <div style="display: flex; justify-content: center;">
+                <img src="imagenes/first_60_min_on_120_off_120.png" 
+                     style="max-width: 100%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+            </section>
+            
+            
+            
+            <section>
+                
+                <p style="font-size: 30px; text-align: center; line-height: 1.5; margin-top: 1px;">
+                    <strong>on/off - 180/45</strong>
+                </p>
+
+              <!-- Primera imagen -->
+              <div style="display: flex; justify-content: center; margin-bottom: 1px;">
+                <img src="imagenes/first_60_min_on_180_off_45.png" 
+                     style="max-width: 100%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+            </section>
+            
+            <section>                
+                <p style="font-size: 30px; text-align: center; line-height: 1.5; margin-top: 1px;">
+                    <strong>on/off - 180/90</strong>
+                </p>        
+              <!-- Segunda imagen -->
+              <div style="display: flex; justify-content: center;">
+                <img src="imagenes/first_60_min_on_180_off_90.png" 
+                     style="max-width: 100%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+            </section>
+            
+            <section>                     
+              <!-- Segunda imagen -->
+              <div style="display: flex; justify-content: center;">
+                <img src="imagenes/status_group1.png" 
+                     style="max-width: 86%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+            </section>
+            
+            
+            <section>                     
+              <!-- Segunda imagen -->
+              <div style="display: flex; justify-content: center;">
+                <img src="imagenes/status_group2.png" 
+                     style="max-width: 86%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+            </section>
+            
+            
+            
+<!--
+            <section>
+              <h6>Distribución Temperatura - Disipador Caliente</h6>
+
+              <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+                <iframe src="imagenes/violin_on_off_th_interactive_3.html"
+                        style="border:none; width:100%; height:420px;">
+                </iframe>
+              </div>
+
+            </section>
+            
+            
+            <section>
+              <h6>Distribución Temperatura - Disipador Frío</h6>
+
+              <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+                <iframe src="imagenes/violin_on_off_tc_interactive_3.html"
+                        style="border:none; width:100%; height:420px;">
+                </iframe>
+              </div>
+
+            </section>
+                        
+-->
+            <section>
+              <h6>Distribución Temperatura - Disipadores</h6>
+
+              <!-- Gráfico Plotly -->
+              <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+                <iframe src="imagenes/violin_on_off_combinado_interactive.html"
+                        style="border:none; width:100%; height:430px;">
+                </iframe>
+              </div>
+
+            </section>            
+            
+
+                        
+            
+            <section>
+              <h4 style="margin-bottom: 10px;">Resultados Experimentales</h4>
+
+              <!-- Imagen centrada -->
+              <div style="display: flex; justify-content: center; margin-bottom: 30px;">
+                <img src="imagenes/proporcion_estado.png" alt="Resultado" style="max-width: 90%; height: auto; border: 1px solid #d0d0d0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25),
+                        inset 0 0 20px rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            padding: 8px;
+            background: linear-gradient(145deg, #ffffff, #f8f8f8);">
+              </div>
+
+              <!-- Itemización en dos columnas -->
+              <div style="display: flex; gap: 60px; justify-content: center; font-size: 22px; text-align: left;">
+                <!-- Columna 1 -->
+                <div style="flex: 1;">
+                  <ul>
+                    <li>Óptimo - on/off - 180/90s</li>
+                    <li>4 estados presentes 0-2-3-4</li>
+                    <li>Agua obtenida: 3 ml/h</li>
+                  </ul>
+                </div>
+                <!-- Columna 2 -->
+                <div style="flex: 1;">
+                  <ul>
+                    <li>Segundo óptimo - on/off - 180/45s</li>
+                    <li>4 estados presentes 0-2-3-4</li>
+                    <li>Agua obtenida: 2.8 ml/h</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+            
+            
+            <section>
+                
+                <h6>Resultados</h6>
+              <!-- Resultado Plotly -->
+              <div style="display: flex; justify-content: center;">
+                <iframe src="imagenes/on_off_ml_surface_1.html"
+                        style="border: none; width: 63%; height: 550px;">
+                </iframe>
+              </div>
+            </section>
+
+                                                               
+                            
+    
+                            
+ 
+        </section> 
+              
+              
+        <section data-name = "Conclusiones" >
+            
+            
+            <section>
+              <h6>Resumen de Resultados</h6>
+              <div style="display: flex; gap: 40px; justify-content: center; font-size: 22px;">
+
+                <!-- Columna izquierda -->
+                <div style="flex: 1; text-align: left;">
+                  <p><strong>Ciclos definidos (paso por todos los estados)</strong></p>
+                  <ul>
+                    <li>90/45</li>
+                    <li>180/90</li>
+                    <li>180/180</li>
+                    <li>90/90</li>
+                    <li>120/120</li>
+                    <li>180/45</li>
+                  </ul>
+
+                  <p><strong>Sin ciclos definidos</strong></p>
+                  <ul>
+                    <li>30/30</li>
+                    <li>20/180</li>
+                    <li>180/20</li>
+                    <li>45/45</li>
+                    <li>90/180</li>
+                    <li>30/90</li>
+                  </ul>
+                </div>
+
+                <!-- Columna derecha -->
+                <div style="flex: 1; text-align: left;">
+                  <p><strong>Agua condensada obtenida</strong></p>
+                  <ul>
+                    <li>30/30 → 1.4 ml</li>
+                    <li>180/180 → 1.4 ml</li>
+                    <li>45/45 → 1.0 ml</li>
+                    <li>90/90 → 1.0 ml</li>
+                    <li>120/120 → 1.0 ml</li>
+                    <li>180/45 → 2.8 ml</li>
+                    <li>180/90 → <strong>3.0 ml (máximo)</strong></li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+            
+            
+            <section>
+              <h6>Conclusiones</h6>
+              <div style="font-size: 24px; text-align: justify; max-width: 90%; margin: auto;">
+                <ul>
+                  <li>Los <strong>tiempos más largos de encendido y apagado</strong> favorecen la formación de ciclos completos (DRY → WET → FROST → ICE → MELTED).</li>
+                  <li>Los ciclos más cortos o muy desbalanceados <strong>no generan transiciones definidas</strong> entre estados.</li>
+                  <li>Existe evidencia de que <strong>operar con ciclos on/off permite acumular más agua</strong>, siendo la combinación 180/90 la más eficiente en este experimento (3 ml).</li>
+                  <li>El aumento en agua obtenida implica también un <strong>mayor consumo energético</strong>, lo que plantea un compromiso entre eficiencia hídrica y energética.</li>
+                </ul>
+              </div>
+            </section>
+            
+            <section>
+              <h6>Mejoras - Trabajos futuros</h6>
+              <div style="font-size: 24px; text-align: justify; max-width: 90%; margin: auto;">
+                <ul>
+                   <li>Determinación de rendimiento - ml/Wh</li>
+                   <li>Automatización con IA - on/off - TinyML + RL híbrido</li>
+                   <li>Radiador frío - superficie hidrofóbica</li> 
+                   <li>Geometría del radiador</li>
+                   <li>Mejoras en sistemas de enfriamiento</li>
+                   <li><strong>Enfriamiento radiativo</strong></li>
+       
+                </ul>
+              </div>
+            </section>
+            
+          <section>
+            <!-- Logos superiores -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <!-- Logo izquierda -->
+              <img src="imagenes/Universidad_de_La_Serena_escudo.png" style="height: 90px;">
+
+              <!-- Logo centro -->
+              <img src="imagenes/logo_c2mc_2025.png" style="width: 129px;">
+
+              <!-- Logo derecha -->
+              <img src="imagenes/logo_ubiobio.png" style="height: 90px;">
+            </div>
+
+            <!-- Título -->
+            <h6 style="margin-top: 20px;">Generador de Agua Atmosférica con Control Computacional: Optimización Experimental de Ciclos de Hielo/Deshielo</h6>
+
+            <!-- Autores -->
+            <p style="font-size: 18px; text-align: center; margin-top: 15px;">
+              C. Garrido, C. Avendaño y <u>P. Pacheco</u>
+            </p>
+
+            <!-- Instituciones -->
+            <p style="font-size: 15px; text-align: center; line-height: 1.5; margin-top: 15px;">
+              Departamento de Ingeniería Mecánica – Universidad de La Serena <br>
+              Benavente 980 – La Serena – CHILE <br>
+              e-mail: ppacheco@userena.cl <br><br>
+            </p>
+
+            <!-- Congreso al pie -->
+            <p style="font-size: 16px; text-align: center; margin-top: 25px;">
+              <strong>XXIII Congreso Chileno de Mecánica Computacional</strong>
+            </p>
+          </section>
+
+
+           
+            
+                    
+        </section> 
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+        <script src="plugin/math/math.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script src="plugin/search/search.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+        <script src="plugin/simplemenu/simplemenu.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+                margin: 0.0001,
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+                minScale: 1.,
+                maxScale: 1.2,
+                slideNumber: true,
+                previewLinks: 'auto',
+              
+                // VELOCIDAD DE TRANSICIÓN
+                transition: 'slide',           // Tipo de transición
+                transitionSpeed: 'slow',       // Velocidad: 'fast', 'default', 'slow'
+                backgroundTransition: 'slow',  // Transición del fondo
+
+                // O control más preciso con milisegundos
+                transitionDuration: 1500,       // Duración en milisegundos (default: 400)
+                backgroundTransitionDuration: 1500, // Duración fondo en ms
+              
+                // Parallax background image
+                parallaxBackgroundImage: 'imagenes/fondo_blue_9_35.png', // e.g. "https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg"
+
+                // Parallax background size
+                parallaxBackgroundSize: '1270px 1270px', // CSS syntax, e.g. "2100px 900px" 
+                // Number of pixels to move the parallax background per slide
+                // - Calculated automatically unless specified
+                // - Set to 0 to disable movement along an axis
+                parallaxBackgroundHorizontal: 180,
+                parallaxBackgroundVertical: 180,
+                parallaxBackgroundDuration: 3000,   // Duración en ms (default: 1000)
+                parallaxBackgroundEasing: 'ease-in-out',
+              
+                simplemenu: {
+                    menuclass: "menu",
+                    activeclass: "active",
+                    activeelement: "li",
+                    selectby: "id",
+                    barhtml: {
+                        header: "",
+                        footer: ""
+                    },
+                    flat: true,
+                    scale: 0.67,
+                    csspath: ""
+               },
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [RevealZoom, RevealMarkdown, RevealHighlight, RevealNotes, RevealMath.KaTeX, Simplemenu]
+			});
+		</script>
+        
+        
+	</body>
+</html>
+
